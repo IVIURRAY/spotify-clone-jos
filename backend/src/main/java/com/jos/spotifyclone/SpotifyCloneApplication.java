@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpotifyCloneApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpotifyCloneApplication.class, args);
+		SpotifyConnect.clientCredentials_Sync();
+		NewReleases.getListOfNewReleases_Sync();
 	}
 
 }
