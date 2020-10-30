@@ -1,8 +1,9 @@
 package com.jos.spotifyclone.controller;
 
+import com.wrapper.spotify.SpotifyApi;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller {
-
+public abstract class Controller {
+  public abstract void run();
 }
