@@ -18,3 +18,10 @@ First off, thank you for wanting to contribute! :thumbsup:
 4) Raise a pull request!
 
 *  Follow [this](https://www.dataschool.io/how-to-contribute-on-github/amp/) guide if the above does not make sense!
+
+# How to setup Spotify Auth
+In order for this to work you need to have a Spotify [Applicaiton](https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app) registered.
+
+1) [Go here](https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app) and register an application
+2) This will allow you to get a `client id` and `client secret` which you can plug into the Java app.
+3) Make sure you add your Redirect URIs to `http://localhost:8080/api/spotify-auth` otherwise it will not work!
