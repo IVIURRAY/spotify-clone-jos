@@ -31,9 +31,14 @@ public class SpotifyConnect {
         final URI uri = authorizationCodeUriRequest.execute();
         Runtime runtime = Runtime.getRuntime();
         try {
+            runtime.exec("rundll32 url.dll,FileProtocolHandler " + uri);
+        } catch (IOException e) {
+            System.out.println("If you're running on Windows and read this it looks like we can't open your browser...");
+        }
+        try {
             runtime.exec("open " + uri);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("If you're running on MacOS and read this it looks like we can't open your browser...");
         }
     }
 
