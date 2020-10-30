@@ -3,7 +3,8 @@ A Spotify clone built by Java Open Source Group
 
 
 # How to get involved
-Join our discord [channel](https://discord.gg/NqTfYW) and introduce yourself to get involved!
+1) Join our discord [channel](https://discord.gg/NqTfYW) and introduce yourself to get involved!
+2) Find a task you want to work on from the [project board](https://github.com/IVIURRAY/spotify-clone-jos/projects/1)
 
 # How to Contribute?
 
