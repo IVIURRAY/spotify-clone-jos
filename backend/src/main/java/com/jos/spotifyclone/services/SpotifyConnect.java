@@ -12,8 +12,8 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 @Service
 public class SpotifyConnect {
-    private static final String CLIENT_ID  = "a7254441bc474bd6adf67eed4d885e44";
-    private static final String SECRET_ID = "b73d8f761e034478bb39d417139ef91b";
+    private static final String CLIENT_ID  = "";
+    private static final String SECRET_ID = "";
     public static String token = "";
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(CLIENT_ID)
