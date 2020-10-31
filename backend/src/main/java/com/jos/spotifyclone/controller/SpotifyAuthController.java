@@ -12,17 +12,12 @@ import java.io.IOException;
 @RestController
 public class SpotifyAuthController  {
 
-    private final SpotifyConnect spotifyConnect;
-
     @Autowired
-    public SpotifyAuthController(SpotifyConnect spotifyConnect) {
-        this.spotifyConnect = spotifyConnect;
-    }
+    private SpotifyConnect spotifyConnect;
 
     @GetMapping
     public void handleAuthCode(@RequestParam String code) throws ParseException, SpotifyWebApiException, IOException {
-        System.out.println("This is the auth code:" + code);
-        SpotifyConnect.addAuthCode(code);
+        spotifyConnect.addAuthCode(code);
     }
 
 }
