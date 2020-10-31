@@ -18,9 +18,11 @@ public class ExampleController {
     SpotifyConnect spotifyConnect;
 
     @GetMapping
-    void handleGet() throws ParseException, SpotifyWebApiException, IOException {
+    String handleGet() throws ParseException, SpotifyWebApiException, IOException {
         System.out.println("This is you!");
         System.out.println(spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute().toString());
+
+        return "This is an example endpoint.";
     }
 
 }

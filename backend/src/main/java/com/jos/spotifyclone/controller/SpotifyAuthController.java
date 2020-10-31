@@ -17,7 +17,7 @@ public class SpotifyAuthController  {
 
     @GetMapping
     public void handleAuthCode(@RequestParam String code) throws ParseException, SpotifyWebApiException, IOException {
-        SpotifyConnect.addAuthCode(code);
+        spotifyConnect.addAuthCode(code);
     }
 
 }
