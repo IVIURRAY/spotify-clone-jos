@@ -7,6 +7,7 @@ import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -19,13 +20,8 @@ public class ExampleController {
     SpotifyConnect spotifyConnect;
 
     @GetMapping
-    String handleGet() throws ParseException, SpotifyWebApiException, IOException {
-        System.out.println("This is you!");
-        User user = spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
-
-        System.out.println(user.toString());
-
-        return "Hey, " + user.getDisplayName() + "! Welcome to our Spotify clone!";
+    public @ResponseBody User handleGet() throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
     }
 
 }
