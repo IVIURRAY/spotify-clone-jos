@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RequestMapping("/user/playlists")
+@RequestMapping("api/user/playlists")
 @RestController
-public class playlistsOfCurrentUser {
+public class PlaylistController {
 
     @Autowired
     SpotifyConnect spotifyConnect;
