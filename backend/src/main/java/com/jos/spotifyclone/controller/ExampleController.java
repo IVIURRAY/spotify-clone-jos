@@ -2,6 +2,7 @@ package com.jos.spotifyclone.controller;
 
 import com.jos.spotifyclone.services.SpotifyConnect;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.specification.User;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,11 @@ public class ExampleController {
     @GetMapping
     String handleGet() throws ParseException, SpotifyWebApiException, IOException {
         System.out.println("This is you!");
-        System.out.println(spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute().toString());
+        User user = spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
 
-        return "This is an example endpoint.";
+        System.out.println(user.toString());
+
+        return "Hey, " + user.getDisplayName() + "! Welcome to our Spotify clone!";
     }
 
 }
