@@ -1,41 +1,58 @@
 package com.jos.spotifyclone.services;
 
 import com.wrapper.spotify.SpotifyApi;
+import com.wrapper.spotify.SpotifyHttpManager;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
-import com.wrapper.spotify.model_objects.credentials.ClientCredentials;
-import com.wrapper.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
+import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
+import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
+import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import org.apache.hc.core5.http.ParseException;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-@Service
+import java.net.URI;
+
+@Component
 public class SpotifyConnect {
-    private static final String CLIENT_ID  = "";
+    private static final String CLIENT_ID = "";
     private static final String SECRET_ID = "";
-    public static String token = "";
+    private static final String REDIRECT_URI = "http://localhost:8080/api/spotify-auth";
     private static final SpotifyApi spotifyApi = new SpotifyApi.Builder()
             .setClientId(CLIENT_ID)
             .setClientSecret(SECRET_ID)
+            .setRedirectUri(SpotifyHttpManager.makeUri(REDIRECT_URI))
             .build();
-    private static final ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials()
-            .build();
+    private static final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi.authorizationCodeUri()
+            .build();;
 
     @PostConstruct
-    @Scheduled(cron = "* * 1 * * *") //how often to run seconds minutes hours days month year
-    //* means every second every minute etc if u change it means itll run by ex: the first min of every day
-    public static void clientCredentials_Sync() {
+    public void openAuthWindow() {
+        final URI uri = authorizationCodeUriRequest.execute();
+        Runtime runtime = Runtime.getRuntime();
         try {
-            final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
-
-            // Set access token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(clientCredentials.getAccessToken());
-            System.out.println(clientCredentials.getAccessToken());
-            token = spotifyApi.getAccessToken();
-            //System.out.println("Expires in: " + clientCredentials.getExpiresIn());
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            System.out.println("Error: " + e.getMessage());
+            runtime.exec("rundll32 url.dll,FileProtocolHandler " + uri);
+        } catch (IOException e) {
+            System.out.println("If you're running on Windows and read this it looks like we can't open your browser...");
         }
+        try {
+            runtime.exec("open " + uri);
+        } catch (IOException e) {
+            System.out.println("If you're running on MacOS and read this it looks like we can't open your browser...");
+        }
+    }
+
+    public static void addAuthCode(String code) throws ParseException, SpotifyWebApiException, IOException {
+        AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code).build();
+
+        final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
+
+        // Set access and refresh token for further "spotifyApi" object usage
+        spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+        spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+    }
+
+    public SpotifyApi getSpotifyApi() {
+        return spotifyApi;
     }
 }
