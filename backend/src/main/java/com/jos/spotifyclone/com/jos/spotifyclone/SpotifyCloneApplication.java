@@ -1,6 +1,5 @@
-package com.jos.spotifyclone;
+package com.jos.spotifyclone.com.jos.spotifyclone;
 
-import com.jos.spotifyclone.services.SpotifyConnect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
