@@ -8,16 +8,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-@RequestMapping("api/spotify-auth")
+@RequestMapping("/api/spotify-auth")
 @RestController
 public class SpotifyAuthController  {
 
     @Autowired
     private SpotifyConnect spotifyConnect;
 
-    @GetMapping
+    @GetMapping("")
     public void handleAuthCode(@RequestParam String code) throws ParseException, SpotifyWebApiException, IOException {
-        SpotifyConnect.addAuthCode(code);
+        spotifyConnect.addAuthCode(code);
+    }
+    
+    @GetMapping("/example")
+    public String example () {
+    	return "example";
     }
 
 }
