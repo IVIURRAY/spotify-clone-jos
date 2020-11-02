@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 
-@RequestMapping("api/search/artist")
+@RequestMapping("api/search")
 @RestController
 public class SearchArtistController<ArtistSearchRequest> {
 
@@ -18,9 +18,9 @@ public class SearchArtistController<ArtistSearchRequest> {
     SpotifyConnect spotifyConnect;
 
     //TODO ${ARTIST_NAME_HERE} needs value storing elsewhere where this controller can access the search term to return searched for artist data
-    @GetMapping
+    @GetMapping("/artist/")
     public @ResponseBody
-    IModelObject searchArtistController() throws ParseException, IOException, SpotifyWebApiException {
-        return spotifyConnect.getSpotifyApi().searchArtists("${ARTIST_NAME_HERE}").build().execute();
+    IModelObject searchArtistController(@RequestParam String artist) throws ParseException, IOException, SpotifyWebApiException {
+        return spotifyConnect.getSpotifyApi().searchArtists(artist).build().execute();
     }
 }
