@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RequestMapping("api/user/profile")
+@RequestMapping("api/user")
 @RestController
 public class UserProfileController {
 
     @Autowired
     SpotifyConnect spotifyConnect;
 
-    @GetMapping
+    @GetMapping("/profile/")
     public @ResponseBody
     User currentUserProfile() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
