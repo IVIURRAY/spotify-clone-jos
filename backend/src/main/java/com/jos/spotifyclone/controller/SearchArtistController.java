@@ -18,6 +18,7 @@ public class SearchArtistController<ArtistSearchRequest> {
     SpotifyConnect spotifyConnect;
 
     //TODO ${ARTIST_NAME_HERE} needs value storing elsewhere where this controller can access the search term to return searched for artist data
+    //http://localhost:8080/api/search/artist/?artist=drake
     @GetMapping("/artist/")
     public @ResponseBody
     IModelObject searchArtistController(@RequestParam String artist) throws ParseException, IOException, SpotifyWebApiException {
