@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @RequestMapping("api/user")
 @RestController
-public class UserProfileController {
+public class UserController {
 
     @Autowired
     SpotifyConnect spotifyConnect;
