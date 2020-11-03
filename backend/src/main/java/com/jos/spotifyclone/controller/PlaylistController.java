@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@RequestMapping("api/user/playlists")
+@RequestMapping("api/user")
 @RestController
 public class PlaylistController {
 
     @Autowired
     SpotifyConnect spotifyConnect;
 
-    @GetMapping
+    @GetMapping("/playlist/")
     public @ResponseBody Paging<PlaylistSimplified> playlistsOfCurrentUser() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getListOfCurrentUsersPlaylists().build().execute();
     }
