@@ -16,6 +16,7 @@ public class RecommendedController {
     SpotifyConnect spotifyConnect;
 
     //https://developer.spotify.com/console/get-available-genre-seeds/
+    //http://localhost:8080/api/user/recommended/?seed=emo
     @GetMapping("/recommended/")
     public @ResponseBody
     Recommendations getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
