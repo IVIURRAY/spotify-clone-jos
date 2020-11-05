@@ -24,6 +24,6 @@ public class SearchArtistController<ArtistSearchRequest> {
     @ResponseBody
     public 
     IModelObject searchArtistController(@RequestParam String artist) throws ParseException, IOException, SpotifyWebApiException {
-        return spotifyConnect.getSpotifyApi().searchArtists(artist).limit(5).build().execute();
+        return spotifyConnect.getSpotifyApi().searchArtists(artist).limit(2).build().execute();
     }
 }
