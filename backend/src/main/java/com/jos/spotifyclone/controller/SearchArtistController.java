@@ -12,17 +12,18 @@ import java.io.IOException;
 
 @RequestMapping("api/search")
 @RestController
+@CrossOrigin
 public class SearchArtistController<ArtistSearchRequest> {
 
     @Autowired
     SpotifyConnect spotifyConnect;
-
-    //TODO ${ARTIST_NAME_HERE} needs value storing elsewhere where this controller can access the search term to return searched for artist data
+	
+	    //TODO ${ARTIST_NAME_HERE} needs value storing elsewhere where this controller can access the search term to return searched for artist data
     //http://localhost:8080/api/search/artist/?artist=drake
     @GetMapping("/artist{artist}")
-    @CrossOrigin(allowedHeaders =  "*")
-    public @ResponseBody
+    @ResponseBody
+    public 
     IModelObject searchArtistController(@RequestParam String artist) throws ParseException, IOException, SpotifyWebApiException {
-        return spotifyConnect.getSpotifyApi().searchArtists(artist).build().execute();
+        return spotifyConnect.getSpotifyApi().searchArtists(artist).limit(5).build().execute();
     }
 }
