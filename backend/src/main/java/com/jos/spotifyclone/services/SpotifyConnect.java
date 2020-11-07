@@ -13,11 +13,15 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class SpotifyConnect {
     private final SpotifyApi spotifyApi;
-    private final AuthorizationCodeUriRequest authorizationCodeUriRequest;
+    //private final AuthorizationCodeUriRequest authorizationCodeUriRequest;
+    private final AuthorizationCodeUriRequest.Builder authorizationCodeUriRequestBuilder;
+
 
     public SpotifyConnect(
             @Value("${spotify.api.clientId}") String clientId,
@@ -29,13 +33,30 @@ public class SpotifyConnect {
                 .setClientSecret(secretId)
                 .setRedirectUri(SpotifyHttpManager.makeUri(redirectUri))
                 .build();
-        this.authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().build();
+        //this.authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().build();
+        this.authorizationCodeUriRequestBuilder = spotifyApi.authorizationCodeUri().scope("user-read-recently-played " +
+                "user-read-playback-position " +
+                "user-top-read " +
+                "playlist-modify-private " +
+                "playlist-read-collaborative " +
+                "playlist-read-private " +
+                "playlist-modify-public " +
+                "user-read-email " +
+                "user-read-private " +
+                "user-follow-read " +
+                "user-follow-modify " +
+                "user-library-modify " +
+                "user-library-read " +
+                "user-read-currently-playing " +
+                "user-read-playback-state " +
+                "user-modify-playback-state");
     }
 
 
     @PostConstruct
     public void openAuthWindow() {
-        final URI uri = authorizationCodeUriRequest.execute();
+        //final URI uri = authorizationCodeUriRequest.execute();
+        final URI uri = authorizationCodeUriRequestBuilder.build().execute();
         Runtime runtime = Runtime.getRuntime();
         try {
             runtime.exec("rundll32 url.dll,FileProtocolHandler " + uri);
