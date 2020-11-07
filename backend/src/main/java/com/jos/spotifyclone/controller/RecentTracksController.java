@@ -23,7 +23,6 @@ public class RecentTracksController {
     @GetMapping("/recentTracks/")
     public @ResponseBody
     PagingCursorbased<PlayHistory> getRecentTracks() throws ParseException, SpotifyWebApiException, IOException {
-        //System.out.println((spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute()));
         return spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute();
     }
 
