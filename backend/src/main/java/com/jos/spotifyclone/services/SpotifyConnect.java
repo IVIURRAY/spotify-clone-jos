@@ -19,7 +19,6 @@ import java.util.List;
 @Component
 public class SpotifyConnect {
     private final SpotifyApi spotifyApi;
-    //private final AuthorizationCodeUriRequest authorizationCodeUriRequest;
     private final AuthorizationCodeUriRequest.Builder authorizationCodeUriRequestBuilder;
 
 
@@ -33,7 +32,7 @@ public class SpotifyConnect {
                 .setClientSecret(secretId)
                 .setRedirectUri(SpotifyHttpManager.makeUri(redirectUri))
                 .build();
-        //this.authorizationCodeUriRequest = spotifyApi.authorizationCodeUri().build();
+       
         this.authorizationCodeUriRequestBuilder = spotifyApi.authorizationCodeUri().scope("user-read-recently-played " +
                 "user-read-playback-position " +
                 "user-top-read " +
@@ -55,7 +54,6 @@ public class SpotifyConnect {
 
     @PostConstruct
     public void openAuthWindow() {
-        //final URI uri = authorizationCodeUriRequest.execute();
         final URI uri = authorizationCodeUriRequestBuilder.build().execute();
         Runtime runtime = Runtime.getRuntime();
         try {
