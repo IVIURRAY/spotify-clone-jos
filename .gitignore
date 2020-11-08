@@ -1,5 +1,6 @@
 # Compiled class file
 *.class
+.classpath
 
 # Log file
 *.log
@@ -26,3 +27,9 @@ hs_err_pid*
 .idea
 .vscode
 backend/mvnw.cmd
+/bin/
+backend/bin
+.classpath
+.project
+.settings
+.gitignore
