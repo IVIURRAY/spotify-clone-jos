@@ -18,72 +18,72 @@ public class UserController {
     @Autowired
     SpotifyConnect spotifyConnect;
 
-    @GetMapping("/profile/")
+    @GetMapping("/profile")
     public @ResponseBody
     User currentUserProfile() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
     }
 
     //https://developer.spotify.com/console/get-available-genre-seeds/
-    //http://localhost:8080/api/user/recommended/?seed=emo
-    @GetMapping("/recommended/")
+    //http://localhost:8080/api/user/recommended?seed=emo
+    @GetMapping("/recommended")
     public @ResponseBody
     Recommendations getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
         var availableGenreSeeds = spotifyConnect.getSpotifyApi().getAvailableGenreSeeds();
         return spotifyConnect.getSpotifyApi().getRecommendations().seed_genres(seed).build().execute();
     }
 
-    @GetMapping("/recentTracks/")
+    @GetMapping("/recentTracks")
     public @ResponseBody
     PagingCursorbased<PlayHistory> getRecentTracks() throws ParseException, SpotifyWebApiException, IOException {
         //System.out.println((spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute()));
         return spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute();
     }
 
-    @GetMapping("/playlist/")
+    @GetMapping("/playlist")
     public @ResponseBody Paging<PlaylistSimplified> playlistsOfCurrentUser() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getListOfCurrentUsersPlaylists().build().execute();
     }
 
-    @GetMapping("/followedArtists/")
+    @GetMapping("/followedArtists")
     public @ResponseBody PagingCursorbased<Artist> followedArtists() throws ParseException, SpotifyWebApiException, IOException {
         final ModelObjectType type = ModelObjectType.ARTIST;
         return spotifyConnect.getSpotifyApi().getUsersFollowedArtists(type).build().execute();
     }
 
-    @GetMapping("/savedAlbums/")
+    @GetMapping("/savedAlbums")
     public @ResponseBody Paging<SavedAlbum> savedAlbums() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getCurrentUsersSavedAlbums().build().execute();
     }
 
-    @GetMapping("/savedShows/")
+    @GetMapping("/savedShows")
     public @ResponseBody Paging<SavedShow> savedShows() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getUsersSavedShows().build().execute();
     }
 
-    @GetMapping("/savedTracks/")
+    @GetMapping("/savedTracks")
     public @ResponseBody Paging<SavedTrack> savedTracks() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getUsersSavedTracks().build().execute();
     }
 
     //run http://localhost:8080/api/user/savedAlbums/ first to find id's
-    //http://localhost:8080/api/user/removeAlbums/?ids=<replace with albums id>
-    @GetMapping("/removeAlbums/")
+    //http://localhost:8080/api/user/removeAlbums?ids=<replace with albums id>
+    @GetMapping("/removeAlbums")
     public @ResponseBody String removeAlbums(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().removeAlbumsForCurrentUser(ids).build().execute();
     }
 
     //run http://localhost:8080/api/user/savedShows/ first to find id's
-    //http://localhost:8080/api/user/removeShows/?ids=<replace with shows id>
-    @GetMapping("/removeShows/")
+    //http://localhost:8080/api/user/removeShows?ids=<replace with shows id>
+    @GetMapping("/removeShows")
     public @ResponseBody
     String removeShows(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().removeUsersSavedShows(ids).build().execute();
     }
 
     //run http://localhost:8080/api/user/savedTracks/ first to find id's
-    //http://localhost:8080/api/user/removeTracks/?ids=<replace with tracks id>
-    @GetMapping("/removeTracks/")
+    //http://localhost:8080/api/user/removeTracks?ids=<replace with tracks id>
+    @GetMapping("/removeTracks")
     public @ResponseBody
     String removeTracks(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().removeUsersSavedTracks(ids).build().execute();
