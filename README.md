@@ -25,4 +25,12 @@ In order for this to work you need to have a Spotify [Applicaiton](https://devel
 1) [Go here](https://developer.spotify.com/documentation/general/guides/app-settings/#register-your-app) and register an application
 2) This will allow you to get a `client id` and `client secret` which you need to authenticate to Spotify.
 3) Replace your `client id` and `secret id` in the [`application.properties`](https://github.com/IVIURRAY/spotify-clone-jos/blob/master/backend/src/main/resources/application.properties) file.
-4) Make sure you add your Redirect URIs to `http://localhost:8080/api/spotify-auth` in the Spotify Dashboar also, otherwise it will not work!
+4) Make sure you add this url `http://localhost:8080/api/spotify-auth` in the Spotify Dashboar, otherwise it will not work!
+
+# How to run the backend?
+1) Make sure your `client id` and `secret id` are in [application.properties](backend/src/main/resources/application.properties).
+1) Run `SpotifyCloneApplication.java`
+
+# How to run the frontend?
+1) `cd frontend`
+2) `npm i && npm start` (given you've `npm` installed)
