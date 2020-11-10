@@ -25,15 +25,6 @@ public class UserController {
         return spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
     }
 
-    //https://developer.spotify.com/console/get-available-genre-seeds/
-    //http://localhost:8080/api/user/recommended?seed=emo
-    @GetMapping("/recommended")
-    public @ResponseBody
-    Recommendations getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
-        var availableGenreSeeds = spotifyConnect.getSpotifyApi().getAvailableGenreSeeds();
-        return spotifyConnect.getSpotifyApi().getRecommendations().seed_genres(seed).build().execute();
-    }
-
     @GetMapping("/playlist")
     public @ResponseBody Paging<PlaylistSimplified> playlistsOfCurrentUser() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getListOfCurrentUsersPlaylists().build().execute();
@@ -81,11 +72,6 @@ public class UserController {
     public @ResponseBody
     String removeTracks(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().removeUsersSavedTracks(ids).build().execute();
-    }
-
-    @GetMapping("/newReleases")
-    public @ResponseBody Paging<AlbumSimplified> newReleases() throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getListOfNewReleases().build().execute();
     }
 }
 
