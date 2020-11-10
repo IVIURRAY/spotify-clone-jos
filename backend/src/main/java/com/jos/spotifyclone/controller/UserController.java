@@ -4,6 +4,7 @@ package com.jos.spotifyclone.controller;
 import com.jos.spotifyclone.services.SpotifyConnect;
 import com.wrapper.spotify.enums.ModelObjectType;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.miscellaneous.CurrentlyPlaying;
 import com.wrapper.spotify.model_objects.specification.*;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,6 @@ public class UserController {
     Recommendations getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
         var availableGenreSeeds = spotifyConnect.getSpotifyApi().getAvailableGenreSeeds();
         return spotifyConnect.getSpotifyApi().getRecommendations().seed_genres(seed).build().execute();
-    }
-
-    @GetMapping("/recentTracks")
-    public @ResponseBody
-    PagingCursorbased<PlayHistory> getRecentTracks() throws ParseException, SpotifyWebApiException, IOException {
-        //System.out.println((spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute()));
-        return spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute();
     }
 
     @GetMapping("/playlist")
@@ -87,6 +81,11 @@ public class UserController {
     public @ResponseBody
     String removeTracks(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().removeUsersSavedTracks(ids).build().execute();
+    }
+
+    @GetMapping("/newReleases")
+    public @ResponseBody Paging<AlbumSimplified> newReleases() throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getListOfNewReleases().build().execute();
     }
 }
 
