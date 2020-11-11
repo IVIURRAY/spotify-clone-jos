@@ -21,22 +21,26 @@ public class PlayerController {
     SpotifyConnect spotifyConnect;
 
     @GetMapping("/currentlyPlaying")
-    public CurrentlyPlaying currentlyPlayings() throws ParseException, SpotifyWebApiException, IOException {
+    public @ResponseBody
+    CurrentlyPlaying currentlyPlayings() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getUsersCurrentlyPlayingTrack().build().execute();
     }
 
     @GetMapping("/recentTracks")
-    public PagingCursorbased<PlayHistory> getRecentTracks() throws ParseException, SpotifyWebApiException, IOException {
+    public @ResponseBody
+    PagingCursorbased<PlayHistory> getRecentTracks() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getCurrentUsersRecentlyPlayedTracks().build().execute();
     }
 
     @GetMapping("/availableDevices")
-    public Device[] availableDevices() throws ParseException, SpotifyWebApiException, IOException {
+    public @ResponseBody
+    Device[] availableDevices() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getUsersAvailableDevices().build().execute();
     }
 
     @GetMapping("/currentPlayback")
-    public CurrentlyPlayingContext currentPlayback() throws ParseException, SpotifyWebApiException, IOException {
+    public @ResponseBody
+    CurrentlyPlayingContext currentPlayback() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getInformationAboutUsersCurrentPlayback().build().execute();
     }
 }
