@@ -20,7 +20,7 @@ public class ExampleController {
     SpotifyConnect spotifyConnect;
 
     @GetMapping
-    public @ResponseBody User handleGet() throws ParseException, SpotifyWebApiException, IOException {
+    public User handleGet() throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getCurrentUsersProfile().build().execute();
     }
 
