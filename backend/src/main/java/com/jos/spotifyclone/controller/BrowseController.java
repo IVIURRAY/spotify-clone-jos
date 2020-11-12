@@ -2,8 +2,10 @@ package com.jos.spotifyclone.controller;
 
 import com.jos.spotifyclone.services.SpotifyConnect;
 import com.neovisionaries.i18n.CountryCode;
+import com.wrapper.spotify.enums.ModelObjectType;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.special.FeaturedPlaylists;
+import com.wrapper.spotify.model_objects.special.SearchResult;
 import com.wrapper.spotify.model_objects.specification.*;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,33 +47,33 @@ public class BrowseController {
 
     //http://localhost:8080/api/browse/getSeveralAlbums?id=0LcJLqbBmaGUft1e9Mm8HV
     @GetMapping("/getSeveralAlbums")
-    public Album[] getSeveralAlbums(@RequestParam String[] id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getSeveralAlbums(id).build().execute();
+    public Album[] getSeveralAlbums(@RequestParam String[] ids) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getSeveralAlbums(ids).build().execute();
     }
 
     //http://localhost:8080/api/browse/getArtist?id=0LcJLqbBmaGUft1e9Mm8HV
     @GetMapping("/getArtist")
-    public Artist getArtist(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getArtist(id).build().execute();
+    public Artist getArtist(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getArtist(artist_id).build().execute();
     }
 
     //http://localhost:8080/api/browse/getArtistsAlbums?id=0LcJLqbBmaGUft1e9Mm8HV
     @GetMapping("/getArtistsAlbums")
-    public Paging<AlbumSimplified> getArtistsAlbums(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getArtistsAlbums(id).build().execute();
+    public Paging<AlbumSimplified> getArtistsAlbums(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getArtistsAlbums(artist_id).build().execute();
     }
 
     //http://localhost:8080/api/browse/getArtistsTopTracks?id=0LcJLqbBmaGUft1e9Mm8HV
     @GetMapping("/getArtistsTopTracks")
-    public Track[] getArtistsTopTracks(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
+    public Track[] getArtistsTopTracks(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
         CountryCode countryCode = CountryCode.US;
-        return spotifyConnect.getSpotifyApi().getArtistsTopTracks(id,countryCode).build().execute();
+        return spotifyConnect.getSpotifyApi().getArtistsTopTracks(artist_id,countryCode).build().execute();
     }
 
     //http://localhost:8080/api/browse/getArtistsRelatedArtists?id=0LcJLqbBmaGUft1e9Mm8HV
     @GetMapping("/getArtistsRelatedArtists")
-    public Artist[] getArtistsRelatedArtists(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getArtistsRelatedArtists(id).build().execute();
+    public Artist[] getArtistsRelatedArtists(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getArtistsRelatedArtists(artist_id).build().execute();
     }
 
     //http://localhost:8080/api/browse/getSeveralArtists?id=0LcJLqbBmaGUft1e9Mm8HV
@@ -99,11 +101,6 @@ public class BrowseController {
         return spotifyConnect.getSpotifyApi().getListOfCategories().build().execute();
     }
 
-    @GetMapping("/getListOfFeaturedPlaylists")
-    public FeaturedPlaylists getListOfFeaturedPlaylists() throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getListOfFeaturedPlaylists().build().execute();
-    }
-
     //http://localhost:8080/api/browse/getEpisode?id=4GI3dxEafwap1sFiTGPKd1
     @GetMapping("/getEpisode")
     public Episode getEpisode(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
@@ -112,8 +109,8 @@ public class BrowseController {
 
     //http://localhost:8080/api/browse/getSeveralEpisodes?id=4GI3dxEafwap1sFiTGPKd1
     @GetMapping("/getSeveralEpisodes")
-    public Episode[] getSeveralEpisodes(@RequestParam String[] id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getSeveralEpisodes(id).build().execute();
+    public Episode[] getSeveralEpisodes(@RequestParam String[] ids) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getSeveralEpisodes(ids).build().execute();
     }
 
     //http://localhost:8080/api/browse/getShow?id=5AvwZVawapvyhJUIx71pdJ
@@ -124,13 +121,37 @@ public class BrowseController {
 
     //http://localhost:8080/api/browse/getSeveralShows?id=5AvwZVawapvyhJUIx71pdJ
     @GetMapping("/getSeveralShows")
-    public ShowSimplified[] getShow(@RequestParam String[] id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getSeveralShows(id).build().execute();
+    public ShowSimplified[] getShow(@RequestParam String[] ids) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getSeveralShows(ids).build().execute();
     }
 
     //http://localhost:8080/api/browse/getShowsEpisodes?id=5AvwZVawapvyhJUIx71pdJ
     @GetMapping("/getShowsEpisodes")
-    public Paging<EpisodeSimplified> getShowsEpisodes(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getShowEpisodes(id).build().execute();
+    public Paging<EpisodeSimplified> getShowsEpisodes(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getShowEpisodes(ids).build().execute();
+    }
+
+    //http://localhost:8080/api/browse/getTrack?id=01iyCAUm8EvOFqVWYJ3dVX
+    @GetMapping("/getTrack")
+    public Track getTrack(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getTrack(id).build().execute();
+    }
+
+    //http://localhost:8080/api/browse/getSeveralTracks?id=01iyCAUm8EvOFqVWYJ3dVX
+    @GetMapping("/getSeveralTracks")
+    public Track[] getSeveralTracks(@RequestParam String[] ids) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getSeveralTracks(ids).build().execute();
+    }
+
+    @GetMapping("/getGenreSeeds")
+    public String[] getGenreSeeds() throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getAvailableGenreSeeds().build().execute();
+    }
+
+    //http://localhost:8080/api/browse/searchItems?name=abba&type=artist
+    //http://localhost:8080/api/browse/searchItems?name=positions&type=track
+    @GetMapping("/searchItems")
+    public SearchResult searchItems(@RequestParam String name, @RequestParam String type) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().searchItem(name, type).build().execute();
     }
 }
