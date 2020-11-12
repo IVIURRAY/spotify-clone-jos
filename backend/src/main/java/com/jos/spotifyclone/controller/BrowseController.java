@@ -101,29 +101,6 @@ public class BrowseController {
         return spotifyConnect.getSpotifyApi().getListOfCategories().build().execute();
     }
 
-    @GetMapping("/getListOfFeaturedPlaylists")
-    public FeaturedPlaylists getListOfFeaturedPlaylists() throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getListOfFeaturedPlaylists().build().execute();
-    }
-
-    //http://localhost:8080/api/browse/getPlaylist?playlist_id=3AGOiaoRXMSjswCLtuNqv5
-    @GetMapping("/getPlaylist")
-    public Playlist getPlaylist(@RequestParam String playlist_id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getPlaylist(playlist_id).build().execute();
-    }
-
-    //http://localhost:8080/api/browse/getPlaylistItems?playlist_id=37i9dQZF1DX4fpCWaHOned
-    @GetMapping("/getPlaylistItems")
-    public Paging<PlaylistTrack> getPlaylistItems(@RequestParam String playlist_id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getPlaylistsItems(playlist_id).build().execute();
-    }
-
-    //http://localhost:8080/api/browse/getPlaylistImage?playlist_id=3AGOiaoRXMSjswCLtuNqv5
-    @GetMapping("/getPlaylistImage")
-    public Image[] getPlaylistImage(@RequestParam String playlist_id) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getPlaylistCoverImage(playlist_id).build().execute();
-    }
-
     //http://localhost:8080/api/browse/getEpisode?id=4GI3dxEafwap1sFiTGPKd1
     @GetMapping("/getEpisode")
     public Episode getEpisode(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {

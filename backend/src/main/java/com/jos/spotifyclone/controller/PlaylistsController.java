@@ -3,8 +3,12 @@ package com.jos.spotifyclone.controller;
 import com.google.gson.JsonArray;
 import com.jos.spotifyclone.services.SpotifyConnect;
 import com.wrapper.spotify.exceptions.SpotifyWebApiException;
+import com.wrapper.spotify.model_objects.special.FeaturedPlaylists;
 import com.wrapper.spotify.model_objects.special.SnapshotResult;
+import com.wrapper.spotify.model_objects.specification.Image;
+import com.wrapper.spotify.model_objects.specification.Paging;
 import com.wrapper.spotify.model_objects.specification.Playlist;
+import com.wrapper.spotify.model_objects.specification.PlaylistTrack;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -79,5 +83,28 @@ public class PlaylistsController {
     @GetMapping("/replaceItemsFrom")
     public String replaceItemsFrom(@RequestParam String playlist_id, @RequestParam String[] uris) throws ParseException, SpotifyWebApiException, IOException {
         return  spotifyConnect.getSpotifyApi().replacePlaylistsItems(playlist_id, uris).build().execute();
+    }
+
+    @GetMapping("/getListOfFeaturedPlaylists")
+    public FeaturedPlaylists getListOfFeaturedPlaylists() throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getListOfFeaturedPlaylists().build().execute();
+    }
+
+    //http://localhost:8080/api/browse/getPlaylist?playlist_id=3AGOiaoRXMSjswCLtuNqv5
+    @GetMapping("/getPlaylist")
+    public Playlist getPlaylist(@RequestParam String playlist_id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getPlaylist(playlist_id).build().execute();
+    }
+
+    //http://localhost:8080/api/browse/getPlaylistItems?playlist_id=37i9dQZF1DX4fpCWaHOned
+    @GetMapping("/getPlaylistItems")
+    public Paging<PlaylistTrack> getPlaylistItems(@RequestParam String playlist_id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getPlaylistsItems(playlist_id).build().execute();
+    }
+
+    //http://localhost:8080/api/browse/getPlaylistImage?playlist_id=3AGOiaoRXMSjswCLtuNqv5
+    @GetMapping("/getPlaylistImage")
+    public Image[] getPlaylistImage(@RequestParam String playlist_id) throws ParseException, SpotifyWebApiException, IOException {
+        return spotifyConnect.getSpotifyApi().getPlaylistCoverImage(playlist_id).build().execute();
     }
 }
