@@ -47,6 +47,7 @@ public class SpotifyConnect {
                 "user-library-modify " +
                 "user-library-read " +
                 "user-read-currently-playing " +
+                "ugc-image-upload " +
                 "user-read-playback-state " +
                 "user-modify-playback-state");
     }
