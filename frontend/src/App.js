@@ -1,10 +1,13 @@
 import './App.css';
-import { Example } from './components';
+import { Example, Playlists } from './components';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <section className="left-panel">
+        <Playlists />
+      </section>
+      <section className="middle-panel">      
         <h1>
           Spotify Clone!
         </h1>
@@ -17,7 +20,8 @@ function App() {
           Learn React
         </a>
         <Example />
-      </header>
+      </section>
+      <section className="right-panel"/>
     </div>
   );
 }

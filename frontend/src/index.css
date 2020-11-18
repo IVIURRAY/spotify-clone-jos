@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'GothamMedium', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,4 +10,19 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: 'GothamBold';
+  src: url('./fonts/GothamBold.ttf');
+}
+
+@font-face {
+  font-family: 'GothamLight';
+  src: url('./fonts/GothamLight.ttf');
+}
+
+@font-face {
+  font-family: 'GothamMedium';
+  src: url('./fonts/GothamMedium.ttf');
 }

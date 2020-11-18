@@ -6,7 +6,7 @@ const Example = () => {
   const [isLoading, setLoading] = useState(true);
 
   async function fetchData() {
-    const res = await fetch("user/profile");
+    const res = await fetch("example");
     res
       .json()
       .then(json => {
