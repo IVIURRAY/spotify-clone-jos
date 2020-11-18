@@ -1,0 +1,20 @@
+.playlists-title {
+  text-transform: uppercase;
+}
+
+.playlists-item {
+  margin: 10px 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+}
+
+.playlists-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.playlists-link:hover {
+  color: white;
+}
