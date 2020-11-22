@@ -1,0 +1,17 @@
+.profile-icon {
+  border-radius: 25px;
+}
+
+.user-name {
+  position: relative;
+  left: 10px;
+  top: -10px;
+}
+
+.user-bubble {
+    background-color: black;
+    border-radius: 15px;
+    width: fit-content;
+    padding: 0 25px 0 10px;
+    margin-left: auto;
+}

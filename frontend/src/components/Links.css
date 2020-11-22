@@ -1,0 +1,26 @@
+.links-panel {
+    margin-top: 10px;
+}
+
+.link-item {
+    margin: 10px 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 90%;
+}
+
+.link-name {
+    position: relative;
+    top: -5px;
+    margin-left: 5px;
+}
+
+.link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.link:hover {
+    color: white;
+}
