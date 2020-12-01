@@ -26,14 +26,14 @@ public class AudioController {
         return spotifyConnect.getSpotifyApi().getAudioAnalysisForTrack(id).build().execute();
     }
 
-    //http://localhost:8080/api/audio/audioFeaturesTrack?id=01iyCAUm8EvOFqVWYJ3dVX
-    @GetMapping("/audioFeaturesTrack")
+    //http://localhost:8080/api/audio/audio-features-track?id=01iyCAUm8EvOFqVWYJ3dVX
+    @GetMapping("/audio-features-track")
     public AudioFeatures getAudioFeaturesForTrack(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getAudioFeaturesForTrack(id).build().execute();
     }
 
-    //http://localhost:8080/api/audio/audioFeaturesTracks?ids=01iyCAUm8EvOFqVWYJ3dVX
-    @GetMapping("/audioFeaturesTracks")
+    //http://localhost:8080/api/audio/audio-features-tracks?ids=01iyCAUm8EvOFqVWYJ3dVX
+    @GetMapping("/audio-features-tracks")
     public AudioFeatures[] getAudioFeaturesForSeveralTracks(@RequestParam String[] ids) throws ParseException, SpotifyWebApiException, IOException {
         return spotifyConnect.getSpotifyApi().getAudioFeaturesForSeveralTracks(ids).build().execute();
     }
