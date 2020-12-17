@@ -51,13 +51,14 @@ public class SearchController {
         List<AlbumModel> list = new ArrayList<>();
         for(AlbumSimplified album : response.getItems()){
             String name = album.getName();
-            List<String> artist = new ArrayList<>();
+            List<Object> artist = new ArrayList<>();
             Image[] image = album.getImages();
             ExternalUrl externalUrl = album.getExternalUrls();
 
             ArtistSimplified[] artistArray  = album.getArtists();
             for(ArtistSimplified artistSimplified : artistArray){
                 artist.add(artistSimplified.getName());
+                artist.add(artistSimplified.getExternalUrls());
             }
             list.add(new AlbumModel(name, artist, image, externalUrl));
         }
@@ -137,10 +138,11 @@ public class SearchController {
             String name = track.getName();
             ExternalUrl externalUrls = track.getExternalUrls();
 
-            List<String> artistsList = new ArrayList<>();
+            List<Object> artistsList = new ArrayList<>();
             ArtistSimplified[] artists = track.getArtists();
             for(ArtistSimplified artistSimplified : artists){
                 artistsList.add(artistSimplified.getName());
+                artistsList.add(artistSimplified.getExternalUrls());
             }
 
             List<AlbumModel> albumList  = new ArrayList<>();

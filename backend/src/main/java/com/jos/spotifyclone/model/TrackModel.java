@@ -8,22 +8,17 @@ public class TrackModel {
     String name;
     ExternalUrl externalUrls;
 
-    List<String> artists;
+    List<Object> artists;
     List<AlbumModel> albums;
 
-    public TrackModel(String name, ExternalUrl externalUrls, List<String> artists, List<AlbumModel> albums) {
+    public TrackModel(String name, ExternalUrl externalUrls, List<Object> artists, List<AlbumModel> albums) {
         this.name = name;
         this.externalUrls = externalUrls;
         this.artists = artists;
         this.albums = albums;
     }
 
-    public TrackModel(String name, ExternalUrl externalUrls){
-        this.name = name;
-        this.externalUrls = externalUrls;
-    }
-
-    public TrackModel(String name, ExternalUrl externalUrls, List<String> artists) {
+    public TrackModel(String name, ExternalUrl externalUrls, List<Object> artists) {
         this.name = name;
         this.externalUrls = externalUrls;
         this.artists = artists;
@@ -37,7 +32,7 @@ public class TrackModel {
         return externalUrls;
     }
 
-    public List<String> getArtists() {
+    public List<Object> getArtists() {
         return artists;
     }
 
