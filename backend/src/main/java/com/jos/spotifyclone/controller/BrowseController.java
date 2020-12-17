@@ -29,10 +29,26 @@ public class BrowseController {
 
     //https://developer.spotify.com/console/get-available-genre-seeds/
     //http://localhost:8080/api/browse/recommended?seed=emo
-    //TODO can't access the data
     @GetMapping("/recommended")
-    public Recommendations getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
-        return spotifyConnect.getSpotifyApi().getRecommendations().seed_genres(seed).build().execute();
+    public Map<String, Object> getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
+        var response = spotifyConnect.getSpotifyApi().getRecommendations().seed_genres(seed).build().execute();
+
+        List<TrackModel> list = new ArrayList<>();
+        for(TrackSimplified rec : response.getTracks()){
+            String name = rec.getName();
+            ExternalUrl externalUrl = rec.getExternalUrls();
+
+            List<Object> artistsList = new ArrayList<>();
+            for(ArtistSimplified artistSimplified : rec.getArtists()){
+                artistsList.add(artistSimplified.getName());
+                artistsList.add(artistSimplified.getExternalUrls());
+            }
+
+            list.add(new TrackModel(name, externalUrl, artistsList));
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("Recommended", list);
+        return map;
     }
 
     //http://localhost:8080/api/browse/new-releases
@@ -46,10 +62,11 @@ public class BrowseController {
             Image[] image = album.getImages();
             ExternalUrl externalUrl = album.getExternalUrls();
 
-            List<String> artistsList = new ArrayList<>();
+            List<Object> artistsList = new ArrayList<>();
             var artists = album.getArtists();
             for(ArtistSimplified artist : artists){
                 artistsList.add(artist.getName());
+                artistsList.add(artist.getExternalUrls());
             }
             list.add(new AlbumModel(name, artistsList, image, externalUrl));
         }
@@ -77,10 +94,11 @@ public class BrowseController {
         }
 
 
-        List<String> artistList = new ArrayList<>();
+        List<Object> artistList = new ArrayList<>();
         var artists = response.getArtists();
         for(ArtistSimplified artist : artists){
             artistList.add(artist.getName());
+            artistList.add(artist.getExternalUrls());
         }
         list.add(new AlbumModel(name, artistList, image, externalUrl));
 
@@ -90,20 +108,21 @@ public class BrowseController {
         return map;
     }
 
-    //http://localhost:8080/api/browse/album-track?id=5zT1JLIj9E57p3e1rFm9Uq
-    @GetMapping("/album-track")
-    public Map<String, Object> getAlbumTrack(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
-        var response = spotifyConnect.getSpotifyApi().getAlbumsTracks(id).build().execute();
+    //http://localhost:8080/api/browse/albums/tracks?album_id=5zT1JLIj9E57p3e1rFm9Uq
+    @GetMapping("/albums/tracks")
+    public Map<String, Object> getAlbumTrack(@RequestParam String album_id) throws ParseException, SpotifyWebApiException, IOException {
+        var response = spotifyConnect.getSpotifyApi().getAlbumsTracks(album_id).build().execute();
 
         List<TrackModel> list = new ArrayList<>();
         for(TrackSimplified albumTrack : response.getItems()){
             String name = albumTrack.getName();
             ExternalUrl externalUrls = albumTrack.getExternalUrls();
 
-            List<String> artistsList = new ArrayList<>();
+            List<Object> artistsList = new ArrayList<>();
             var artists = albumTrack.getArtists();
             for(ArtistSimplified artist : artists){
                 artistsList.add(artist.getName());
+                artistsList.add(artist.getExternalUrls());
             }
 
             list.add(new TrackModel(name, externalUrls, artistsList));
@@ -124,10 +143,11 @@ public class BrowseController {
             Image[] image = album.getImages();
             ExternalUrl externalUrl = album.getExternalUrls();
 
-            List<String> artistList = new ArrayList<>();
+            List<Object> artistList = new ArrayList<>();
             var artists = album.getArtists();
             for(ArtistSimplified artist : artists){
                 artistList.add(artist.getName());
+                artistList.add(artist.getExternalUrls());
             }
             list.add(new AlbumModel(name, artistList, image, externalUrl));
         }
@@ -155,8 +175,8 @@ public class BrowseController {
         return map;
     }
 
-    //http://localhost:8080/api/browse/artists-albums?artist_id=0LcJLqbBmaGUft1e9Mm8HV
-    @GetMapping("/artists-albums")
+    //http://localhost:8080/api/browse/artists/albums?artist_id=0LcJLqbBmaGUft1e9Mm8HV
+    @GetMapping("/artists/albums")
     public Map<String, Object> getArtistsAlbums(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
         var response = spotifyConnect.getSpotifyApi().getArtistsAlbums(artist_id).build().execute();
 
@@ -166,10 +186,11 @@ public class BrowseController {
             Image[] image = artistAlbum.getImages();
             ExternalUrl externalUrl = artistAlbum.getExternalUrls();
 
-            List<String> artistList = new ArrayList<>();
+            List<Object> artistList = new ArrayList<>();
             ArtistSimplified[] artists = artistAlbum.getArtists();
             for(ArtistSimplified artist : artists){
                 artistList.add(artist.getName());
+                artistList.add(artist.getExternalUrls());
             }
             list.add(new AlbumModel(name, artistList, image, externalUrl));
         }
@@ -178,8 +199,8 @@ public class BrowseController {
         return map;
     }
 
-    //http://localhost:8080/api/browse/artists-top-tracks?artist_id=0LcJLqbBmaGUft1e9Mm8HV
-    @GetMapping("/artists-top-tracks")
+    //http://localhost:8080/api/browse/artists/top?artist_id=0LcJLqbBmaGUft1e9Mm8HV
+    @GetMapping("/artists/top")
     public Map<String, Object> getArtistsTopTracks(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
         CountryCode countryCode = CountryCode.US;
         Track[] topTracks = spotifyConnect.getSpotifyApi().getArtistsTopTracks(artist_id,countryCode).build().execute();
@@ -189,7 +210,7 @@ public class BrowseController {
             String name = track.getName();
             ExternalUrl externalUrls = track.getExternalUrls();
 
-            List<String> artistsList = new ArrayList<>();
+            List<Object> artistsList = new ArrayList<>();
             ArtistSimplified[] artists = track.getArtists();
             for(ArtistSimplified artist : artists){
                 artistsList.add(artist.getName());
@@ -199,10 +220,11 @@ public class BrowseController {
 
             AlbumSimplified albums = track.getAlbum();
             String nameAlbum = albums.getName();
-            List<String> artistAlbumList = new ArrayList<>();
+            List<Object> artistAlbumList = new ArrayList<>();
             ArtistSimplified[] artistOfAlbum = albums.getArtists();
             for(ArtistSimplified ar : artistOfAlbum){
                 artistAlbumList.add(ar.getName());
+                artistAlbumList.add(ar.getExternalUrls());
             }
             Image[] imageAlbum = albums.getImages();
             ExternalUrl externalUrlAlbum = albums.getExternalUrls();
@@ -215,8 +237,8 @@ public class BrowseController {
         return map;
     }
 
-    //http://localhost:8080/api/browse/artists-related?artist_id=0LcJLqbBmaGUft1e9Mm8HV
-    @GetMapping("/artists-related")
+    //http://localhost:8080/api/browse/artists/related?artist_id=0LcJLqbBmaGUft1e9Mm8HV
+    @GetMapping("/artists/related")
     public Map<String, Object> getArtistsRelatedArtists(@RequestParam String artist_id) throws ParseException, SpotifyWebApiException, IOException {
         Artist[] response = spotifyConnect.getSpotifyApi().getArtistsRelatedArtists(artist_id).build().execute();
 
@@ -269,8 +291,8 @@ public class BrowseController {
     }
 
     //http://localhost:8080/api/browse/categories  run this first to find categories
-    //http://localhost:8080/api/browse/category-playlist?id=classical
-    @GetMapping("/category-playlist")
+    //http://localhost:8080/api/browse/categories/playlist?id=classical
+    @GetMapping("/categories/playlist")
     public Map<String, Object> getCategoryPlaylist(@RequestParam String id) throws ParseException, SpotifyWebApiException, IOException {
         var response = spotifyConnect.getSpotifyApi().getCategorysPlaylists(id).build().execute();
 
@@ -374,8 +396,8 @@ public class BrowseController {
         return map;
     }
 
-    //http://localhost:8080/api/browse/shows-episodes?ids=5AvwZVawapvyhJUIx71pdJ
-    @GetMapping("/shows-episodes")
+    //http://localhost:8080/api/browse/shows/episodes?ids=5AvwZVawapvyhJUIx71pdJ
+    @GetMapping("/shows/episodes")
     public Map<String, Object> getShowsEpisodes(@RequestParam String ids) throws ParseException, SpotifyWebApiException, IOException {
         var response = spotifyConnect.getSpotifyApi().getShowEpisodes(ids).build().execute();
 
@@ -403,10 +425,11 @@ public class BrowseController {
         String name = response.getName();
         ExternalUrl externalUrls = response.getExternalUrls();
 
-        List<String> artistsList = new ArrayList<>();
+        List<Object> artistsList = new ArrayList<>();
         ArtistSimplified[] artists = response.getArtists();
         for(ArtistSimplified artist : artists){
             artistsList.add(artist.getName());
+            artistsList.add(artist.getExternalUrls());
         }
 
         List<AlbumModel> albumsList = new ArrayList<>();
@@ -414,10 +437,11 @@ public class BrowseController {
         String nameAlbum = albums.getName();
         Image[] imageAlbum = albums.getImages();
         ExternalUrl externalUrlAlbum = albums.getExternalUrls();
-        List<String> artistOfAlbumList = new ArrayList<>();
+        List<Object> artistOfAlbumList = new ArrayList<>();
         ArtistSimplified[] artistOfAlbum = albums.getArtists();
         for(ArtistSimplified artistSimplified : artistOfAlbum){
             artistOfAlbumList.add(artistSimplified.getName());
+            artistOfAlbumList.add(artistSimplified.getExternalUrls());
         }
         albumsList.add(new AlbumModel(nameAlbum, artistOfAlbumList, imageAlbum, externalUrlAlbum));
 
@@ -438,7 +462,7 @@ public class BrowseController {
             String name = track.getName();
             ExternalUrl externalUrls = track.getExternalUrls();
 
-            List<String> artistsList = new ArrayList<>();
+            List<Object> artistsList = new ArrayList<>();
             ArtistSimplified[] artists = track.getArtists();
             for(ArtistSimplified artist : artists){
                 artistsList.add(artist.getName());
@@ -449,10 +473,11 @@ public class BrowseController {
             String nameAlbum = albums.getName();
             Image[] imageAlbum = albums.getImages();
             ExternalUrl externalUrlAlbum = albums.getExternalUrls();
-            List<String> artistOfAlbumList = new ArrayList<>();
+            List<Object> artistOfAlbumList = new ArrayList<>();
             ArtistSimplified[] artistOfAlbum = albums.getArtists();
             for(ArtistSimplified artistSimplified : artistOfAlbum){
                 artistOfAlbumList.add(artistSimplified.getName());
+                artistOfAlbumList.add(artistSimplified.getExternalUrls());
             }
             albumsList.add(new AlbumModel(nameAlbum, artistOfAlbumList, imageAlbum, externalUrlAlbum));
 
@@ -486,10 +511,11 @@ public class BrowseController {
         //for loop
         List<AlbumModel> newList = new ArrayList<>();
         for(AlbumSimplified i: albums){
-            List<String> artists = new ArrayList<>();
+            List<Object> artists = new ArrayList<>();
             ArtistSimplified[] artistArray = i.getArtists();
             for(ArtistSimplified artistSimplified : artistArray){
                 artists.add(artistSimplified.getName());
+                artists.add(artistSimplified.getExternalUrls());
             }
             newList.add(new AlbumModel(i.getName(), artists, i.getImages(), i.getExternalUrls()));
         }

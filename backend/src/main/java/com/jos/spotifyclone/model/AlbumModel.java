@@ -7,18 +7,18 @@ import java.util.List;
 
 public class AlbumModel {
     String name;
-    List<String> artist;
+    List<Object> artist;
     Image[] image;
     ExternalUrl externalUrl;
 
-    public AlbumModel(String name, List<String> artist, Image[] image, ExternalUrl externalUrl) {
+    public AlbumModel(String name, List<Object> artist, Image[] image, ExternalUrl externalUrl) {
         this.name = name;
         this.artist = artist;
         this.image = image;
         this.externalUrl = externalUrl;
     }
 
-    public AlbumModel(String name, List<String> artist, Image[] image, ExternalUrl externalUrl, List<Object> tracks) {
+    public AlbumModel(String name, List<Object> artist, Image[] image, ExternalUrl externalUrl, List<Object> tracks) {
         this.name = name;
         this.artist = artist;
         this.image = image;
@@ -37,7 +37,7 @@ public class AlbumModel {
         return name;
     }
 
-    public List<String> getArtist() {
+    public List<Object> getArtist() {
         return artist;
     }
 }
