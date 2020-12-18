@@ -83,8 +83,6 @@ public class SpotifyConnect {
     public void refreshAuthToken(){
         spotifyApi.setAccessToken(spotifyApi.getAccessToken());
         spotifyApi.setRefreshToken(spotifyApi.getRefreshToken());
-        System.out.println(spotifyApi.getAccessToken());
-        System.out.println(spotifyApi.getRefreshToken());
     }
     public SpotifyApi getSpotifyApi() {
         return spotifyApi;
