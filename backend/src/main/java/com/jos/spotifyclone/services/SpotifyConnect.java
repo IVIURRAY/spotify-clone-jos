@@ -7,7 +7,10 @@ import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredential
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import org.apache.hc.core5.http.ParseException;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.SpringVersion;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +21,6 @@ import java.net.URI;
 public class SpotifyConnect {
     private final SpotifyApi spotifyApi;
     private final AuthorizationCodeUriRequest.Builder authorizationCodeUriRequestBuilder;
-
 
     public SpotifyConnect(
             @Value("${spotify.api.clientId}") String clientId,
@@ -77,6 +79,11 @@ public class SpotifyConnect {
         spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
     }
 
+    @Scheduled(cron = "@hourly")
+    public void refreshAuthToken(){
+        spotifyApi.setAccessToken(spotifyApi.getAccessToken());
+        spotifyApi.setRefreshToken(spotifyApi.getRefreshToken());
+    }
     public SpotifyApi getSpotifyApi() {
         return spotifyApi;
     }
