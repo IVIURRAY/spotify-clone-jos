@@ -30,7 +30,7 @@ public class BrowseController {
     //https://developer.spotify.com/console/get-available-genre-seeds/
     //http://localhost:8080/api/browse/recommended?seed=emo
     @GetMapping("/recommended")
-    public Map<String, Object> getRecommended(@RequestParam String seed) throws ParseException, SpotifyWebApiException, IOException {
+    public Map<String, Object> getRecommended(@RequestParam(defaultValue = "pop") String seed) throws ParseException, SpotifyWebApiException, IOException {
         var response = spotifyConnect.getSpotifyApi().getRecommendations().seed_genres(seed).build().execute();
 
         List<TrackModel> list = new ArrayList<>();
