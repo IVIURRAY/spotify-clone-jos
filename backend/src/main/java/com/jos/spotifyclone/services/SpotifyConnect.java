@@ -6,10 +6,9 @@ import com.wrapper.spotify.exceptions.SpotifyWebApiException;
 import com.wrapper.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import com.wrapper.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.hc.core5.http.ParseException;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.SpringVersion;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -57,15 +56,26 @@ public class SpotifyConnect {
     public void openAuthWindow() {
         final URI uri = authorizationCodeUriRequestBuilder.build().execute();
         Runtime runtime = Runtime.getRuntime();
-        try {
-            runtime.exec("rundll32 url.dll,FileProtocolHandler " + uri);
-        } catch (IOException e) {
-            System.out.println("If you're running on Windows and read this it looks like we can't open your browser...");
+        if(SystemUtils.IS_OS_WINDOWS){
+            try {
+                runtime.exec("rundll32 url.dll,FileProtocolHandler " + uri);
+            } catch (IOException e) {
+                System.out.println("If you're running on Windows and read this it looks like we can't open your browser...");
+            }
+       }
+        if(SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_MAC_OSX) {
+            try {
+                runtime.exec("open " + uri);
+            } catch (IOException e) {
+                System.out.println("If you're running on MacOS and read this it looks like we can't open your browser...");
+            }
         }
-        try {
-            runtime.exec("open " + uri);
-        } catch (IOException e) {
-            System.out.println("If you're running on MacOS and read this it looks like we can't open your browser...");
+        if(SystemUtils.IS_OS_LINUX){
+            try {
+                runtime.exec(new String[]{"bash", "-c", "xdg-open " + uri});
+            } catch (IOException e) {
+                System.out.println("If you're running on Linux and read this it looks like we can't open your browser...");
+            }
         }
     }
 
